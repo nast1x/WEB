@@ -18,7 +18,9 @@ import java.util.Optional;
 @Repository
 @Profile("jdbc")
 public class TaskJdbcRepository implements TaskRepository {
+
     private final JdbcTemplate jdbcTemplate;
+
     private final RowMapper<Task> taskRowMapper = (rs, rowNum) -> {
         Task task = new Task();
         task.setId(rs.getLong("id"));
