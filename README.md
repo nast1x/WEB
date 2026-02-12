@@ -14,6 +14,8 @@
 Не сдана :x:
 
 Создание БД
+
+```sql
 CREATE TABLE task (
     id BIGSERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -21,7 +23,10 @@ CREATE TABLE task (
         CHECK (status IN ('OPEN', 'DONE', 'IN_PROGRESS', 'CLOSED')),
     created_by BIGINT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+
 );
+```
+
 # Лабораторная работа 3
 Не сдана :x:
 # Лабораторная работа 4
