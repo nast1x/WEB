@@ -1,7 +1,6 @@
 package ru.ssau.todo.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.ssau.todo.entity.Task;
 import ru.ssau.todo.entity.TaskStatus;
 import ru.ssau.todo.repository.TaskRepository;
@@ -13,37 +12,40 @@ import java.util.Optional;
 
 @Service
 public class TaskService {
+    private static final int MAX_ACTIVE_TASKS = 10;
+    private static final int MIN_TASK_AGE_MINUTES = 5;
+    private static final String ERROR_TASK_NULL = "Task cannot be null";
+    private static final String ERROR_MAX_ACTIVE_TASKS = "User cannot have more than %d active tasks";
+    private static final String ERROR_TASK_TOO_NEW = "Cannot delete task created less than %d minutes ago";
+    private static final String ERROR_TASK_NOT_FOUND = "Task not found with id: %d";
     private final TaskRepository taskRepository;
 
     public TaskService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
 
+    // Проверка 1: не более 10 активных задач у пользователя
+    private void checkActiveTasksLimit(Long userId) {
+        long activeCount = taskRepository.countActiveTasksByUserId(userId);
+        if (activeCount >= MAX_ACTIVE_TASKS) {
+            throw new IllegalStateException(
+                    String.format(ERROR_MAX_ACTIVE_TASKS, MAX_ACTIVE_TASKS)
+            );
+        }
+    }
+
     /**
      * Создание новой задачи с проверкой бизнес-правил
      */
-    @Transactional
     public Task createTask(Task task) {
-        if (task == null) {
-            throw new IllegalArgumentException("Task cannot be null");
-        }
-        // Проверка 1: не более 10 активных задач у пользователя
-        long activeCount = taskRepository.countActiveTasksByUserId(task.getCreatedBy());
-        if (activeCount >= 10) {
-            throw new IllegalStateException(
-                    "User cannot have more than 10 active tasks. Current count: " + activeCount);
-        }
-
+        checkActiveTasksLimit(task.getCreatedBy());
         return taskRepository.create(task);
     }
 
     /**
      * Обновление задачи
      */
-    @Transactional
     public void updateTask(Task task) throws Exception {
-        validateTask(task);
-
         // Проверка существования задачи
         Optional<Task> existingTaskOpt = taskRepository.findById(task.getId());
         if (existingTaskOpt.isEmpty()) {
@@ -55,12 +57,7 @@ public class TaskService {
         // Если статус меняется на активный, проверяем лимит
         if ((task.getStatus() == TaskStatus.OPEN || task.getStatus() == TaskStatus.IN_PROGRESS) &&
                 (existingTask.getStatus() == TaskStatus.DONE || existingTask.getStatus() == TaskStatus.CLOSED)) {
-
-            long activeCount = taskRepository.countActiveTasksByUserId(task.getCreatedBy());
-            if (activeCount >= 10) {
-                throw new IllegalStateException(
-                        "User cannot have more than 10 active tasks. Current count: " + activeCount);
-            }
+            checkActiveTasksLimit(task.getCreatedBy());
         }
 
         taskRepository.update(task);
@@ -69,7 +66,6 @@ public class TaskService {
     /**
      * Удаление задачи с проверкой времени создания
      */
-    @Transactional
     public void deleteTask(long id) {
         Optional<Task> taskOpt = taskRepository.findById(id);
         if (taskOpt.isEmpty()) {
@@ -81,7 +77,7 @@ public class TaskService {
         long minutesElapsed = ChronoUnit.MINUTES.between(task.getCreatedAt(), now);
 
         // Проверка 2: нельзя удалять задачи младше 5 минут
-        if (minutesElapsed < 5) {
+        if (minutesElapsed < MIN_TASK_AGE_MINUTES) {
             throw new IllegalStateException(
                     "Cannot delete task created less than 5 minutes ago. " +
                             "Elapsed time: " + minutesElapsed + " minutes");
@@ -111,21 +107,4 @@ public class TaskService {
         return taskRepository.countActiveTasksByUserId(userId);
     }
 
-    /**
-     * Валидация задачи
-     */
-    private void validateTask(Task task) {
-        if (task == null) {
-            throw new IllegalArgumentException("Task cannot be null");
-        }
-        if (task.getTitle() == null || task.getTitle().trim().isEmpty()) {
-            throw new IllegalArgumentException("Task title cannot be empty");
-        }
-        if (task.getStatus() == null) {
-            throw new IllegalArgumentException("Task status cannot be null");
-        }
-        if (task.getCreatedBy() == null || task.getCreatedBy() <= 0) {
-            throw new IllegalArgumentException("Invalid user ID");
-        }
-    }
 }

@@ -1,5 +1,6 @@
 package ru.ssau.todo.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +25,10 @@ public class TaskController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Task>> getTasks(@RequestParam(required = false) LocalDateTime from,
-                                               @RequestParam(required = false) LocalDateTime to,
-                                               @RequestParam long userId) {
+    public ResponseEntity<List<Task>> getTasks(@RequestParam(required = false) LocalDateTime from, @RequestParam(required = false) LocalDateTime to, @RequestParam long userId) {
 
         LocalDateTime startDate = (from != null) ? from : LocalDateTime.MIN;
         LocalDateTime endDate = (to != null) ? to : LocalDateTime.MAX;
-
 
         List<Task> tasks = taskService.getTasks(startDate, endDate, userId);
         return ResponseEntity.ok(tasks);
@@ -43,30 +41,21 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody Task task) {
-        try {
-            Task created = taskService.createTask(task);
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(created.getId())
-                    .toUri();
-            return ResponseEntity.created(location).body(created);
-        } catch (IllegalStateException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
+    public ResponseEntity<Task> createTask(@RequestBody @Valid Task task) {
+        Task created = taskService.createTask(task);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(created.getId()).toUri();
+        return ResponseEntity.created(location).body(created);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateTask(@PathVariable long id, @RequestBody Task task) {
+    public ResponseEntity<Void> updateTask(@PathVariable long id, @RequestBody @Valid Task task) {
         task.setId(id);
         try {
             taskService.updateTask(task);
-            return ResponseEntity.ok().build();
-        } catch (IllegalStateException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found");
+            throw new RuntimeException(e);
         }
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")

@@ -8,6 +8,7 @@ import ru.ssau.todo.entity.TaskStatus;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -21,10 +22,6 @@ public class TaskInMemoryRepository implements TaskRepository {
 
     @Override
     public Task create(Task task) {
-        if (task == null || task.getStatus() == null || task.getTitle() == null) {
-            throw new IllegalArgumentException("Task cannot be null");
-        }
-
         task.setId(idGenerator);
         task.setCreatedAt(LocalDateTime.now());
         tasks.put(idGenerator, task);
@@ -40,7 +37,7 @@ public class TaskInMemoryRepository implements TaskRepository {
     @Override
     public List<Task> findAll(LocalDateTime from, LocalDateTime to, Long userId) {
         return tasks.values().stream()
-                .filter(task -> task.getCreatedBy() == userId)
+                .filter(task -> Objects.equals(task.getCreatedBy(), userId))
                 .filter(task -> !task.getCreatedAt().isBefore(from))
                 .filter(task -> !task.getCreatedAt().isAfter(to)).collect(Collectors.toList());
     }
@@ -64,7 +61,7 @@ public class TaskInMemoryRepository implements TaskRepository {
     @Override
     public Long countActiveTasksByUserId(Long userId) {
         return tasks.values().stream()
-                .filter(task -> task.getCreatedBy() == userId)
+                .filter(task -> Objects.equals(task.getCreatedBy(), userId))
                 .filter(task -> task.getStatus() == TaskStatus.OPEN || task.getStatus() == TaskStatus.IN_PROGRESS).count();
     }
 }

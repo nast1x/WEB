@@ -37,9 +37,6 @@ public class TaskJdbcRepository implements TaskRepository {
 
     @Override
     public Task create(Task task) {
-        if (task == null || task.getStatus() == null || task.getTitle() == null) {
-            throw new IllegalArgumentException("Task cannot be null");
-        }
 
         String sql = "INSERT INTO task (title, status, created_by, created_at) VALUES (?, ?, ?, ?)";
 

@@ -1,12 +1,21 @@
 package ru.ssau.todo.entity;
 
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
+
 
 public class Task {
 
     private Long id;
+    @NotBlank(message = "Title cannot be empty or null")
     private String title;
+    @NotNull(message = "Status cannot be null")
     private TaskStatus status;
+    @Min(value = 1, message = "Invalid user ID")
     private Long createdBy;
     private LocalDateTime createdAt;
 

@@ -1,6 +1,6 @@
 ### GET List of tasks
 
-GET http://localhost:8080/tasks?from=2020-02-04T22:18:52.616933&to=2028-02-04T22:18:52.616933&userId=777
+GET http://localhost:8080/tasks?from=2000-02-04T22:18:52.616933&to=2028-02-04T22:18:52.616933&userId=777
 
 ### GET tasks for id
 
@@ -12,18 +12,18 @@ POST http://localhost:8080/tasks
 Content-Type: application/json
 
 {
-  "title": "Сделать лабораторную работу №1",
+  "title": "Сделать дела",
   "status": "IN_PROGRESS",
   "createdBy": 777
 }
 
 ### PUT update task
 
-PUT http://localhost:8080/tasks/1
+PUT http://localhost:8080/tasks/2
 Content-Type: application/json
 
 {
-  "title": "Сделать лабораторную работу №1",
+  "title": "Сделать дела",
   "status": "DONE"
 }
 
