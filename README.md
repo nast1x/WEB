@@ -34,6 +34,9 @@ CREATE TABLE task (
 ```
 
 # Лабораторная работа 3
+
+![Юдзуру](./Gifs/yuzureaction-yuzuru-reaction.gif)
+
 Не сдана :x:
 # Лабораторная работа 4
 Не сдана :x:
