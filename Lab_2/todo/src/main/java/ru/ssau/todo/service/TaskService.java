@@ -14,10 +14,7 @@ import java.util.Optional;
 public class TaskService {
     private static final int MAX_ACTIVE_TASKS = 10;
     private static final int MIN_TASK_AGE_MINUTES = 5;
-    private static final String ERROR_TASK_NULL = "Task cannot be null";
     private static final String ERROR_MAX_ACTIVE_TASKS = "User cannot have more than %d active tasks";
-    private static final String ERROR_TASK_TOO_NEW = "Cannot delete task created less than %d minutes ago";
-    private static final String ERROR_TASK_NOT_FOUND = "Task not found with id: %d";
     private final TaskRepository taskRepository;
 
     public TaskService(TaskRepository taskRepository) {
