@@ -38,6 +38,38 @@ CREATE TABLE task (
 ![Юдзуру](./Gifs/yuzureaction-yuzuru-reaction.gif)
 
 Не сдана :x:
+
+Расширение БД 
+
+```sql
+CREATE TABLE users (
+    id BIGSERIAL PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE roles (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE user_roles (
+    user_id BIGINT NOT NULL REFERENCES users(id),
+    role_id BIGINT NOT NULL REFERENCES roles(id),
+    PRIMARY KEY (user_id, role_id)
+);
+
+-- Изменение таблицы task (добавление внешнего ключа)
+ALTER TABLE task ADD CONSTRAINT fk_task_created_by FOREIGN KEY (created_by) REFERENCES users(id);
+
+-- Новые роли
+INSERT INTO roles (name) VALUES ('ROLE_ADMIN'), ('ROLE_USER');
+INSERT INTO users (username) VALUES ('admin'), ('user');
+
+-- Привязка ролей 
+INSERT INTO user_roles (user_id, role_id) VALUES (1, 1); -- admin -> ROLE_ADMIN
+INSERT INTO user_roles (user_id, role_id) VALUES (2, 2); -- user -> ROLE_USER
+```
+
 # Лабораторная работа 4
 Не сдана :x:
 # Лабораторная работа 5
