@@ -70,11 +70,8 @@ public class TaskService {
         return toDto(saved);
     }
 
-    public TaskDto updateTask(TaskDto taskDto) throws Exception {
+    public TaskDto updateTask(TaskDto taskDto) {
         Optional<Task> existingTaskOpt = taskRepository.findById(taskDto.getId());
-        if (existingTaskOpt.isEmpty()) {
-            throw new Exception("Task not found with id: " + taskDto.getId());
-        }
 
         Task existingTask = existingTaskOpt.get();
 

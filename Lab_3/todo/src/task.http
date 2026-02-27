@@ -13,23 +13,23 @@ Content-Type: application/json
 
 {
   "title": "Сделать дела",
-  "status": "IN_PROGRESS",
+  "status": "OPEN",
   "createdBy": 1
 }
 
 ### PUT update task
 
-PUT http://localhost:8080/tasks/17
+PUT http://localhost:8080/tasks/28
 Content-Type: application/json
 
 {
   "title": "Сделать дела",
-  "status": "DONE"
+  "status": "OPEN"
 }
 
 ### DELETE task
 
-DELETE http://localhost:8080/tasks/15
+DELETE http://localhost:8080/tasks/18
 
 ### GET count active task
 

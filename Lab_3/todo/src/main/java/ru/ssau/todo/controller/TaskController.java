@@ -52,11 +52,9 @@ public class TaskController {
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateTask(@PathVariable long id, @RequestBody @Valid TaskDto task) {
         task.setId(id);
-        try {
-            taskService.updateTask(task);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+
+        taskService.updateTask(task);
+
         return ResponseEntity.ok().build();
     }
 

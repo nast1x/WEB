@@ -37,7 +37,7 @@ CREATE TABLE task (
 
 ![Юдзуру](./Gifs/yuzureaction-yuzuru-reaction.gif)
 
-Не сдана :x:
+Сдана ✔️
 
 Расширение БД 
 
