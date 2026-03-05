@@ -1,0 +1,37 @@
+### GET List of tasks
+
+GET http://localhost:8080/tasks?from=2000-02-04T22:18:52.616933&to=2028-02-04T22:18:52.616933&userId=1
+
+### GET tasks for id
+
+GET http://localhost:8080/tasks/17
+
+### POST create new tasks
+
+POST http://localhost:8080/tasks
+Content-Type: application/json
+
+{
+  "title": "Сделать дела",
+  "status": "OPEN",
+  "createdBy": 1
+}
+
+### PUT update task
+
+PUT http://localhost:8080/tasks/28
+Content-Type: application/json
+
+{
+  "title": "Сделать дела",
+  "status": "OPEN"
+}
+
+### DELETE task
+
+DELETE http://localhost:8080/tasks/18
+
+### GET count active task
+
+GET http://localhost:8080/tasks/active/count?userId=1
+Accept: application/json
