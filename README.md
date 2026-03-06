@@ -71,7 +71,21 @@ INSERT INTO user_roles (user_id, role_id) VALUES (2, 2); -- user -> ROLE_USER
 ```
 
 # Лабораторная работа 4
-Не сдана :x:
+
+![Юдзуру](./Gifs/george-russell-russell.gif)
+
+Сдана ✔️
+
+Расширение БД
+```sql
+ALTER TABLE users ADD COLUMN password VARCHAR(255) NOT NULL DEFAULT 'placeholder';
+
+UPDATE users SET password = '{bcrypt}admin123' WHERE username = 'admin';
+UPDATE users SET password = '{bcrypt}user123' WHERE username = 'user';
+
+ALTER TABLE users ALTER COLUMN password DROP DEFAULT;
+```
+
 # Лабораторная работа 5
 
 ![Нафаня и Широ](./Gifs/nafany-sh1ro.gif)

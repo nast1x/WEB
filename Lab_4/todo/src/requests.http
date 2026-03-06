@@ -3,24 +3,21 @@ POST http://localhost:8080/users/register
 Content-Type: application/json
 
 {
-  "username": "Настя",
-  "password": "Very_hard"
+  "username": "Fdsfhsdj",
+  "password": "sdnffknsdkf"
 }
 
 ### Login (Basic Auth)
-POST http://localhost:8080/login
-Content-Type: application/x-www-form-urlencoded
-
-username = Настя &
-password = Very_hard
+GET http://localhost:8080/auth/me
+Authorization: Basic RmRzZmhzZGo6c2RuZmZrbnNka2Y=
 # (логин:пароль в base64)
 
 ### Login (Form) - сначала нужно получить cookie
 POST http://localhost:8080/login
 Content-Type: application/x-www-form-urlencoded
 
-username = testUser &
-password = password123
+username = Fdsfhsdj &
+password = sdnffknsdkf
 
 ### Создание задачи (с токеном или сессией)
 POST http://localhost:8080/tasks
