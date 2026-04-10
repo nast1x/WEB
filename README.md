@@ -90,7 +90,10 @@ ALTER TABLE users ALTER COLUMN password DROP DEFAULT;
 
 ![Нафаня и Широ](./Gifs/nafany-sh1ro.gif)
 
-Не сдана :x:
+Сдана ✔️
+
+Так же был обновлён код ЛР4.
+
 # Если у вас остались вопросы, то
 
 ![Не ко мне вопросы](./Gifs/not_my_q.gif)

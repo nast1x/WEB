@@ -1,0 +1,63 @@
+<div class="container-2010">
+  <div class="list-header">
+    <h2>Мои задачи</h2>
+    <div>
+      <button class="btn-2010" routerLink="/tasks/new">Создать задачу</button>
+      <button class="btn-2010" style="margin-left: 10px;" (click)="fillTestTasks()">Тест (+{{ 10 - activeTasksCount > 0 ? 10 - activeTasksCount : 0 }})</button>
+    </div>
+  </div>
+
+  <div class="stats-panel">
+    <span>Количество активных задач: <strong>{{ activeTasksCount }}</strong></span>
+  </div>
+
+  <hr class="divider">
+
+  <div class="filter-panel">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Поиск по названию..."
+      [(ngModel)]="searchQuery"
+      (ngModelChange)="applyFilters()"
+    >
+    <select class="form-control status-select" [(ngModel)]="selectedStatus" (ngModelChange)="applyFilters()">
+      <option value="ALL">Все статусы</option>
+      <option value="OPEN">Открытые</option>
+      <option value="IN_PROGRESS">В процессе</option>
+      <option value="DONE">Выполненные</option>
+      <option value="CLOSED">Закрытые</option>
+    </select>
+  </div>
+
+  @if (isLoading) {
+    <div class="loading-state">
+      <div class="ajax-loader"></div>
+      <p>Загрузка задач... Пожалуйста, подождите.</p>
+    </div>
+  } @else {
+
+    @for (task of filteredTasks; track task.id) {
+      <div class="task-wrapper">
+        <app-task
+          [task]="task"
+          [isAdmin]="isAdmin"
+          (deleteTask)="onDelete($event)">
+        </app-task>
+
+        @if (failedTaskId === task.id) {
+          <div class="alert-error task-inline-error">
+            <strong>Внимание!</strong> {{ deleteErrorMessage }}
+            <img src="../../../assets/stupid.png" alt="Ошибка" class="alert-pic">
+          </div>
+
+        }
+      </div>
+    } @empty {
+      <div class="empty-state">
+        <p>По вашему запросу задачи не найдены.</p>
+        <img src='assets/nothing_task.png' alt="Пусто" class="empty-image">
+      </div>
+    }
+  }
+</div>

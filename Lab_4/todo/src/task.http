@@ -1,6 +1,12 @@
 ### GET List of tasks
 
-GET http://localhost:8080/tasks?from=2000-02-04T22:18:52.616933&to=2028-02-04T22:18:52.616933&userId=1
+GET http://localhost:8080/tasks?from=2000-02-04T22:18:52.616933&to=2028-02-04T22:18:52.616933&userId=6
+Authorization: Basic RmRzZmhzZGo6c2RuZmZrbnNka2Y=
+
+### GET List of tasks
+
+GET http://localhost:8080/tasks?userId=6
+Authorization: Basic RmRzZmhzZGo6c2RuZmZrbnNka2Y=
 
 ### GET tasks for id
 
@@ -29,7 +35,8 @@ Content-Type: application/json
 
 ### DELETE task
 
-DELETE http://localhost:8080/tasks/18
+DELETE http://localhost:8080/tasks/46
+Authorization: Basic RmRzZmhzZGo6c2RuZmZrbnNka2Y=
 
 ### GET count active task
 

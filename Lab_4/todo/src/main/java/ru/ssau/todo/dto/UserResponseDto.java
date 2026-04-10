@@ -3,10 +3,13 @@ package ru.ssau.todo.dto;
 import java.util.List;
 
 public class UserResponseDto {
+
+    private Long id;
     private String username;
     private List<String> roles;
 
-    public UserResponseDto(String username, List<String> roles) {
+    public UserResponseDto(Long id, String username, List<String> roles) {
+        this.id = id;
         this.username = username;
         this.roles = roles;
     }
@@ -25,5 +28,13 @@ public class UserResponseDto {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

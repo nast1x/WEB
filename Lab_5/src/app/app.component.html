@@ -1,0 +1,35 @@
+@if (authService.isLoggedIn()) {
+  <div class="top-nav">
+    <div class="nav-brand">ToDo Manager 2010</div>
+    <div class="nav-links">
+      <a routerLink="/tasks" class="nav-link">Мои задачи</a>
+      <span class="user-info">Привет, {{ authService.getUsername() }}!</span>
+      <button class="btn-2010 btn-danger btn-sm" (click)="triggerLogout()">Выход</button>
+    </div>
+  </div>
+}
+
+<div class="main-content">
+  <router-outlet></router-outlet>
+</div>
+
+@if (showLogoutModal) {
+  <div class="modal-overlay">
+    <div class="modal-box">
+      <h3>Подтверждение</h3>
+      <p>Вы действительно хотите покинуть приложение?</p>
+
+      <div class="modal-actions">
+        <div class="hover-action-container">
+          <button class="btn-2010 btn-danger" (click)="confirmLogout()">Да, выйти</button>
+          <img src="../assets/forgot.jpg" alt="Грустно" class="hover-image image-left">
+        </div>
+
+        <div class="hover-action-container">
+          <button class="btn-2010" (click)="cancelLogout()" style="min-width: 120px;">Нет, остаться</button>
+          <img src="../assets/remembered.png" alt="Ура" class="hover-image image-right">
+        </div>
+      </div>
+    </div>
+  </div>
+}

@@ -62,7 +62,9 @@ public class TaskService {
         User user = userRepository.findById(taskDto.getCreatedBy())
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + taskDto.getCreatedBy()));
 
-        checkActiveTasksLimit(user.getId());
+        if (taskDto.getStatus() == TaskStatus.OPEN || taskDto.getStatus() == TaskStatus.IN_PROGRESS) {
+            checkActiveTasksLimit(user.getId());
+        }
 
         Task task = toEntity(taskDto, user);
         task.setCreatedAt(LocalDateTime.now());

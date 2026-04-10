@@ -32,6 +32,6 @@ public class AuthController {
         List<String> roleNames = user.getRoles().stream()
                 .map(Role::getName)
                 .toList();
-        return ResponseEntity.ok(new UserResponseDto(username, roleNames));
+        return ResponseEntity.ok(new UserResponseDto(user.getId(), username, roleNames));
     }
 }

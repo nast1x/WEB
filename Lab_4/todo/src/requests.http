@@ -3,13 +3,14 @@ POST http://localhost:8080/users/register
 Content-Type: application/json
 
 {
-  "username": "Fdsfhsdj",
-  "password": "sdnffknsdkf"
+  "username": "user1",
+  "password": "user1"
 }
 
 ### Login (Basic Auth)
 GET http://localhost:8080/auth/me
 Authorization: Basic RmRzZmhzZGo6c2RuZmZrbnNka2Y=
+// username:password
 # (логин:пароль в base64)
 
 ### Login (Form) - сначала нужно получить cookie
@@ -19,13 +20,3 @@ Content-Type: application/x-www-form-urlencoded
 username = Fdsfhsdj &
 password = sdnffknsdkf
 
-### Создание задачи (с токеном или сессией)
-POST http://localhost:8080/tasks
-Content-Type: application/json
-Authorization: Bearer <ваш_токен>
-# или Cookie: JSESSIONID=<ваш_id>
-
-{
-  "title": "Новая задача",
-  "status": "OPEN"
-}

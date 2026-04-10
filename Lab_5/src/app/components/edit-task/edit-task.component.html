@@ -1,0 +1,41 @@
+<div class="container-2010">
+  <h2>{{ isEditMode ? 'Редактирование задачи' : 'Новая задача' }}</h2>
+
+  @if(errorMessage) {
+    <div class="alert-error">
+      <div class="alert-text">
+        <strong>Ошибка сохранения!</strong><br>
+        {{ errorMessage }}
+      </div>
+      <img src="../../../assets/АААААААА.png" alt="Ошибка" class="alert-pic">
+    </div>
+  }
+
+  <form (ngSubmit)="saveTask()" #taskForm="ngForm">
+    <label>Название задачи:</label>
+    <input
+      type="text"
+      class="form-control"
+      [(ngModel)]="task.title"
+      name="title"
+      required
+      [class.is-invalid]="errorMessage">
+
+    <label>Статус:</label>
+    <select
+      class="form-control"
+      [(ngModel)]="task.status"
+      name="status"
+      [class.is-invalid]="errorMessage">
+      <option value="OPEN">Открыта</option>
+      <option value="IN_PROGRESS">В процессе</option>
+      <option value="DONE">Выполнена</option>
+      <option value="CLOSED">Закрыта</option>
+    </select>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-2010" [disabled]="!taskForm.valid">Сохранить</button>
+      <button type="button" class="btn-2010 btn-secondary" (click)="cancel()">Отмена</button>
+    </div>
+  </form>
+</div>

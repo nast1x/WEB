@@ -1,0 +1,41 @@
+<div class="login-page-wrapper">
+
+  <img src='../../../assets/ginger_cat.png' alt="Cat_orange" class="corner-image corner-left">
+
+  <div class="container-2010 login-box">
+    <h2>Вход в систему</h2>
+
+    @if(errorMessage) {
+      <div class="alert-error">
+        <strong>Ошибка!</strong> {{ errorMessage }}
+      </div>
+    }
+
+    <form (ngSubmit)="login()" #loginForm="ngForm">
+      <label>Логин:</label>
+      <input
+        type="text"
+        class="form-control"
+        [class.is-invalid]="loginFailed"
+        [(ngModel)]="username"
+        name="username"
+        required>
+
+      <label>Пароль:</label>
+      <input
+        type="password"
+        class="form-control"
+        [class.is-invalid]="loginFailed"
+        [(ngModel)]="password"
+        name="password"
+        required>
+
+      <div class="action-bar">
+        <button type="submit" class="btn-2010" [disabled]="!loginForm.valid">Войти</button>
+      </div>
+    </form>
+  </div>
+
+  <img src='../../../assets/cat_in_a_panic.png' alt="Cat_in_panic" class="corner-image corner-right">
+
+</div>
